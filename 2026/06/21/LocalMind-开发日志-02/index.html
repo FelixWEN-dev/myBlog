@@ -1,0 +1,542 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>LocalMind 开发日志 02 | Felix's Blog</title><meta name="author" content="Felix"><meta name="copyright" content="Felix"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="LocalMind 开发日志 02  2026-6-21  后端学习&amp;开发 创建创建 src ├── app.controller.spec.ts ├── app.controller.ts ├── app.module.ts ├── app.service.ts ├── main.ts    app.controller.ts 单个路由控制器     app.controller.spe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LocalMind 开发日志 02">
+<meta property="og:url" content="https://felixwen-dev.github.io/myBlog/2026/06/21/LocalMind-%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97-02/index.html">
+<meta property="og:site_name" content="Felix&#39;s Blog">
+<meta property="og:description" content="LocalMind 开发日志 02  2026-6-21  后端学习&amp;开发 创建创建 src ├── app.controller.spec.ts ├── app.controller.ts ├── app.module.ts ├── app.service.ts ├── main.ts    app.controller.ts 单个路由控制器     app.controller.spe">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://felixwen-dev.github.io/myBlog/img/butterfly-icon.png">
+<meta property="article:published_time" content="2026-06-21T15:56:52.000Z">
+<meta property="article:modified_time" content="2026-06-23T17:02:51.349Z">
+<meta property="article:author" content="Felix">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="LangChain">
+<meta property="article:tag" content="LocalMind">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="NestJS">
+<meta property="article:tag" content="RAG">
+<meta property="article:tag" content="Vue3">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://felixwen-dev.github.io/myBlog/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "LocalMind 开发日志 02",
+  "url": "https://felixwen-dev.github.io/myBlog/2026/06/21/LocalMind-%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97-02/",
+  "image": "https://felixwen-dev.github.io/myBlog/img/butterfly-icon.png",
+  "datePublished": "2026-06-21T15:56:52.000Z",
+  "dateModified": "2026-06-23T17:02:51.349Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Felix",
+      "url": "https://felixwen-dev.github.io/myBlog"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/myBlog/img/favicon.png"><link rel="canonical" href="https://felixwen-dev.github.io/myBlog/2026/06/21/LocalMind-%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97-02/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/myBlog/css/index.css?v=5.5.5-b1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/myBlog/',
+  algolia: undefined,
+  localSearch: {"path":"/myBlog/search.json","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"prismjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'LocalMind 开发日志 02',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.2"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+btf.addGlobalFn('pjaxSend', () => {
+  Pace.restart()
+}, 'pace_restart')
+
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/myBlog/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/myBlog/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/myBlog/archives/"><div class="headline">文章</div><div class="length-num">6</div></a><a href="/myBlog/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/myBlog/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/myBlog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/myBlog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/myBlog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/myBlog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/myBlog/"><span class="site-name">Felix's Blog</span></a><a class="nav-page-title" href="/myBlog/"><span class="site-name">LocalMind 开发日志 02</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/myBlog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/myBlog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/myBlog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/myBlog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">LocalMind 开发日志 02</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-06-21T15:56:52.000Z" title="发表于 2026-06-21 23:56:52">2026-06-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-06-23T17:02:51.349Z" title="更新于 2026-06-24 01:02:51">2026-06-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/myBlog/categories/LocalMind-%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97/">LocalMind 开发日志</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>LocalMind 开发日志 02</h1>
+<blockquote>
+<p>2026-6-21</p>
+</blockquote>
+<h2 id="后端学习-开发">后端学习&amp;开发</h2>
+<h3 id="创建创建">创建创建</h3>
+<pre class="line-numbers language-plain" data-language="plain"><code class="language-plain">src
+├── app.controller.spec.ts
+├── app.controller.ts
+├── app.module.ts
+├── app.service.ts
+├── main.ts<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<table>
+<thead>
+<tr>
+<th>app.controller.ts</th>
+<th>单个路由控制器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>app.controller.spec.ts</td>
+<td>单个路由的单元测试</td>
+</tr>
+<tr>
+<td>app.module.ts</td>
+<td>应用的根模块</td>
+</tr>
+<tr>
+<td>app.service.ts</td>
+<td>具有单一方法的基本服务 service</td>
+</tr>
+<tr>
+<td>main.ts</td>
+<td>程序的入口文件，使用核心函数 NestFactory 创建 Nest 应用实例</td>
+</tr>
+</tbody>
+</table>
+<p>main.ts</p>
+<pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript"><span class="token keyword">import</span> <span class="token punctuation">&#123;</span> NestFactory <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"@nestjs/core"</span><span class="token punctuation">;</span> <span class="token comment">//引入 NestFactory</span>
+<span class="token keyword">import</span> <span class="token punctuation">&#123;</span> AppModule <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"./app.module"</span><span class="token punctuation">;</span> <span class="token comment">//引入模块</span>
+<span class="token comment">//创建异步 booststrap 函数</span>
+<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">bootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token keyword">await</span> NestFactory<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>AppModule<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//使用 NestFactory 创建Nest应用实例</span>
+  <span class="token keyword">await</span> app<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token number">3000</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//端口3000</span>
+<span class="token punctuation">&#125;</span>
+<span class="token function">bootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>使用 Nest.js 的工厂函数 NestFactor 创建一个 AppModule 实例</p>
+<p>app.module.ts</p>
+<pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript"><span class="token keyword">import</span> <span class="token punctuation">&#123;</span> Module <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"@nestjs/common"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">&#123;</span> AppController <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"./app.controller"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">&#123;</span> AppService <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"./app.service"</span><span class="token punctuation">;</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Module</span></span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+  imports<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  controllers<span class="token operator">:</span> <span class="token punctuation">[</span>AppController<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  providers<span class="token operator">:</span> <span class="token punctuation">[</span>AppService<span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppModule</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>@Module 装饰器接受四个属性：import、controllers、providers、export</p>
+<ul>
+<li>providers：Nest.js 注入实例化的提供者，处理具体业务逻辑，各个模块之间可以共享</li>
+<li>controllers：处理 http 请求，包括动态路由，像客户端返回响应，将业务逻辑交给 providers 处理</li>
+<li>import：导入模块的列表，如果有其他需要的模块，可以在这里导入</li>
+<li>export：导出模块的列表，如果有需要导出模块供其他模板使用，可以在这里导出</li>
+</ul>
+<p>app.controller.ts</p>
+<pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript"><span class="token keyword">import</span> <span class="token punctuation">&#123;</span> Controller<span class="token punctuation">,</span> Get <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"@nestjs/common"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">&#123;</span> AppService <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"./app.service"</span><span class="token punctuation">;</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Controller</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppController</span> <span class="token punctuation">&#123;</span>
+  <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token keyword">private</span> <span class="token keyword">readonly</span> appService<span class="token operator">:</span> AppService<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Get</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token function">getHello</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">string</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>appService<span class="token punctuation">.</span><span class="token function">getHello</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>使用 @controller 装饰器定义控制器，@Get 是请求方法的控制器，对 getHello 方法进行修饰，表示这个方法会被 GET 请求调用</p>
+<p>app.service.ts</p>
+<pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript"><span class="token keyword">import</span> <span class="token punctuation">&#123;</span> Injectable <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"@nestjs/common"</span><span class="token punctuation">;</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Injectable</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppService</span> <span class="token punctuation">&#123;</span>
+  <span class="token function">getHello</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">string</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token string">"Hello World!"</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>使用 @Injectable 修饰后的 AppService 在 AppServe 中注册后，在 app.controllers.ts 中使用不再需要使用 new AppService 进行实例化，便可直接应用</p>
+<h3 id="路由装饰器">路由装饰器</h3>
+<h4 id="Controller">@Controller</h4>
+<pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript"><span class="token keyword">import</span> <span class="token punctuation">&#123;</span> Controller<span class="token punctuation">,</span> Get <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"@nestjs/common"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">&#123;</span> AppService <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"./app.service"</span><span class="token punctuation">;</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Controller</span></span><span class="token punctuation">(</span><span class="token string">"app"</span><span class="token punctuation">)</span> <span class="token comment">//将这里修改为 "app" 主路径为 app</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppController</span> <span class="token punctuation">&#123;</span>
+  <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token keyword">private</span> <span class="token keyword">readonly</span> appService<span class="token operator">:</span> AppService<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Get</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token function">getHello</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">string</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>appService<span class="token punctuation">.</span><span class="token function">getHello</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>此时，访问 <a target="_blank" rel="noopener" href="https://localhost:3000/">https://localhost:3000/</a> 会出现 404</p>
+<p>因为 @controller 控制器的路由前缀为“app”，此时可以通过 <a target="_blank" rel="noopener" href="https://localhost:3000/app">https://localhost:3000/app</a> 来访问</p>
+<p><img src="./imgs/LocalMind-%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97-02/image1.png" alt="img1"></p>
+<p><img src="./imgs/LocalMind-%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97-02/image2.png" alt="img2"></p>
+<h4 id="HTTP-方法的处理装饰器">HTTP 方法的处理装饰器</h4>
+<p>@Get、@Post、@Put 等众多用于HTTP方法处理装饰器，经过它们装饰的方法，可以对相应的HTTP请求进行响应。同时它们可以接受一个字符串或一个字符串数组作为参数，这里的字符串可以是固定的路径，也可以是通配符。</p>
+<p>修改 app.controller.ts</p>
+<pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript"><span class="token keyword">import</span> <span class="token punctuation">&#123;</span> Controller<span class="token punctuation">,</span> Get<span class="token punctuation">,</span> Post<span class="token punctuation">,</span> Put<span class="token punctuation">,</span> Param <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"@nestjs/common"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">&#123;</span> AppService <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"./app.service"</span><span class="token punctuation">;</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Controller</span></span><span class="token punctuation">(</span><span class="token string">"app"</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppController</span> <span class="token punctuation">&#123;</span>
+  <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token keyword">private</span> <span class="token keyword">readonly</span> appService<span class="token operator">:</span> AppService<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+
+  <span class="token comment">/**
+   * 获取列表
+   * GET /app/list
+   */</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Get</span></span><span class="token punctuation">(</span><span class="token string">"list"</span><span class="token punctuation">)</span>
+  <span class="token function">getHello</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">string</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>appService<span class="token punctuation">.</span><span class="token function">getHello</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token comment">/**
+   * 创建资源
+   * POST /app/list
+   */</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Post</span></span><span class="token punctuation">(</span><span class="token string">"list"</span><span class="token punctuation">)</span>
+  <span class="token function">createList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">string</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token string">"createList"</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token comment">/**
+   * 匹配 /app/user_xxx 格式路径
+   * 示例: /app/user_123 -> xxx = '123'
+   */</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Get</span></span><span class="token punctuation">(</span><span class="token string">"user_:xxx"</span><span class="token punctuation">)</span>
+  <span class="token function">getUser_xxx</span><span class="token punctuation">(</span><span class="token decorator"><span class="token at operator">@</span><span class="token function">Param</span></span><span class="token punctuation">(</span><span class="token string">"xxx"</span><span class="token punctuation">)</span> xxx<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">string</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">getUser </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>xxx<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token comment">/**
+   * 匹配 /app/user/xxx 多级路径（通配符）
+   * 示例:
+   *   /app/user/profile -> path = 'profile'
+   *   /app/user/a/b/c   -> path = 'a/b/c'
+   */</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Get</span></span><span class="token punctuation">(</span><span class="token string">"user/*path"</span><span class="token punctuation">)</span>
+  <span class="token function">getUser</span><span class="token punctuation">(</span><span class="token decorator"><span class="token at operator">@</span><span class="token function">Param</span></span><span class="token punctuation">(</span><span class="token string">"path"</span><span class="token punctuation">)</span> path<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">string</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">getUser 路径：</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>path<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token comment">/**
+   * 更新资源
+   * PUT /app/list/:id
+   */</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Put</span></span><span class="token punctuation">(</span><span class="token string">"list/:id"</span><span class="token punctuation">)</span>
+  <span class="token function">update</span><span class="token punctuation">(</span><span class="token decorator"><span class="token at operator">@</span><span class="token function">Param</span></span><span class="token punctuation">(</span><span class="token string">"id"</span><span class="token punctuation">)</span> id<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">update </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>id<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token comment">/**
+   * 根据ID获取资源
+   * GET /app/list/:id
+   */</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Get</span></span><span class="token punctuation">(</span><span class="token string">"list/:id"</span><span class="token punctuation">)</span>
+  <span class="token function">getById</span><span class="token punctuation">(</span><span class="token decorator"><span class="token at operator">@</span><span class="token function">Param</span></span><span class="token punctuation">(</span><span class="token string">"id"</span><span class="token punctuation">)</span> id<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">get list id=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>id<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>新的改动：</p>
+<ol>
+<li>移除带括号 (.) 正则路径写法，不使用正则格式路由装饰器<br>
+风险：路由中 (.) 这类括号正则语法会触发 path-to-regexp 抛出 PathError 路径解析错误；同时正则路由存在 TS 类型推导异常、多版本 Nest 兼容差的问题。<br>
+规范要求：所有路由全部采用 NestJS 原生标准语法，不再自定义正则表达式配置路由，彻底规避运行时报错、类型缺失等兼容问题。</li>
+<li>路由 user*:xxx(.*) 调整为 user*:xxx<br>
+匹配规则：路由段为完整一段，无路径分隔符 /，可匹配 /app/user*11111、/app/user_admin 等地址。<br>
+参数捕获逻辑：自动捕获当前路径段内下划线 * 后方全部内容赋值给参数 xxx，匹配边界为下一个 /，一旦遇到斜杠则停止捕获。<br>
+请求示例：访问 GET /app/user_11111，@Param(&quot;xxx&quot;) 获取到的值为 11111。</li>
+<li>多级捕获路由 user/:path(.) 替换为标准通配符 user/path<br>
+功能效果：使用官方 * 通配符完整捕获 /user/ 之后所有层级路径，支持单级、多级嵌套路径。<br>
+请求示例 1：访问 /app/user/foo，path 参数值为 foo；<br>
+请求示例 2：访问 /app/user/a/b/c，path 参数值为 a/b/c；<br>
+获取方式：通过 @Param(&quot;path&quot;) 完整接收斜杠后的整条路径字符串，适用于文件路径、多级资源路径场景。</li>
+<li>规范路由定义顺序，精确路由前置，通配路由后置<br>
+Nest 匹配逻辑：控制器内路由从上至下依次匹配，先定义的路由优先级更高。<br>
+风险点：若宽泛通配路由写在精准路由上方，会优先拦截请求，下方精确路由无法被命中，接口返回 404。<br>
+编码标准：高精准匹配路由（如 user_:xxx）必须写在通配模糊路由（如 user/*path）前面。</li>
+</ol>
+<h3 id="数据库">数据库</h3>
+<ol>
+<li>新建数据库</li>
+</ol>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">DATABASE</span> localmind<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<ol start="2">
+<li>修改 .env 文件</li>
+<li>数据库设计</li>
+</ol>
+<ul>
+<li>users 存用户账号与基础信息
+<ul>
+<li>id — INT AUTO_INCREMENT 主键</li>
+<li>email — VARCHAR(255)</li>
+<li>password_hash — VARCHAR(255)</li>
+<li>name — VARCHAR(255)</li>
+<li>is_active — BOOLEAN</li>
+<li>created_at — TIMESTAMP DEFAULT CURRENT_TIMESTAMP</li>
+<li>updated_at — TIMESTAMP ON UPDATE CURRENT_TIMESTAMP</li>
+</ul>
+</li>
+<li>items 主业务逻辑（笔记/文章/条目）
+<ul>
+<li>id 主键</li>
+<li>owner_id -&gt; <a target="_blank" rel="noopener" href="http://user.id">user.id</a> NOT NULL</li>
+<li>title — VARCHAR(255)</li>
+<li>content — JSON</li>
+<li>created_at — TIMESTAMP DEFAULT CURRENT_TIMESTAMP</li>
+<li>updated_at — TIMESTAMP ON UPDATE CURRENT_TIMESTAMP</li>
+</ul>
+</li>
+<li>tags 标签目录
+<ul>
+<li>id — 主键</li>
+<li>name — VARCHAR(100)，NOT NULL，UNIQUE</li>
+<li>slug — VARCHAR(120)</li>
+<li>created_at — TIMESTAMP</li>
+</ul>
+</li>
+<li>item_tags （item 与 tag 多对多关联）
+<ul>
+<li>id — 主键</li>
+<li>name — VARCHAR(100)，NOT NULL，UNIQUE</li>
+<li>slug — VARCHAR(120)</li>
+<li>created_at — TIMESTAMP DEFAULT CURRENT_TIMESTAMP</li>
+</ul>
+</li>
+<li>attachments 文件/附件元数据
+<ul>
+<li>id — 主键</li>
+<li><a target="_blank" rel="noopener" href="http://item.id">item.id</a> -&gt; <a target="_blank" rel="noopener" href="http://items.id">items.id</a></li>
+<li>storage_key — VARCHAR(521)</li>
+<li>url — VARCHAR(1024)</li>
+<li>mime_type — VARCHAR(100)</li>
+<li>size — BIGINT</li>
+<li>created_at — TIMESTAMP DEFAULT CURRENT_TIMESTAMP</li>
+</ul>
+</li>
+<li>sessions 可撤销的登录会话
+<ul>
+<li>id — 主键</li>
+<li>user_id — FK -&gt; <a target="_blank" rel="noopener" href="http://users.id">users.id</a></li>
+<li>token_hash — VARCHAR(255) hash</li>
+<li>expires_at — TIMESTAMP</li>
+<li>revoked_at — TIMESTAMP NULLABLE</li>
+<li>created_at — TIMESTAMP</li>
+</ul>
+</li>
+</ul>
+<ol start="4">
+<li>MySQL 语句</li>
+</ol>
+<ul>
+<li>user 表</li>
+</ul>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> users<span class="token punctuation">(</span>
+  id <span class="token keyword">INT</span> <span class="token keyword">AUTO_INCREMENT</span> <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span><span class="token punctuation">,</span>
+  email <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">255</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span> <span class="token keyword">UNIQUE</span><span class="token punctuation">,</span>
+  password_hash <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">255</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+  name <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  is_active <span class="token keyword">BOOLEAN</span> <span class="token keyword">DEFAULT</span> <span class="token number">1</span><span class="token punctuation">,</span>
+  created_at <span class="token keyword">TIMESTAMP</span> <span class="token keyword">DEFAULT</span> <span class="token keyword">CURRENT_TIMESTAMP</span><span class="token punctuation">,</span>
+  updated_at <span class="token keyword">TIMESTAMP</span> <span class="token keyword">DEFAULT</span> <span class="token keyword">CURRENT_TIMESTAMP</span> <span class="token keyword">ON</span> <span class="token keyword">UPDATE</span> <span class="token keyword">CURRENT_TIMESTAMP</span>
+<span class="token punctuation">)</span> <span class="token keyword">CHARSET</span> <span class="token operator">=</span> utf8mb4<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>items 表</li>
+</ul>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> items<span class="token punctuation">(</span>
+  id <span class="token keyword">INT</span> <span class="token keyword">AUTO_INCREMENT</span> <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span><span class="token punctuation">,</span>
+  owner_id <span class="token keyword">INT</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+  title <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">255</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+  content JSON<span class="token punctuation">,</span>
+  created_at <span class="token keyword">TIMESTAMP</span> <span class="token keyword">DEFAULT</span> <span class="token keyword">CURRENT_TIMESTAMP</span><span class="token punctuation">,</span>
+  updated_at <span class="token keyword">TIMESTAMP</span> <span class="token keyword">DEFAULT</span> <span class="token keyword">CURRENT_TIMESTAMP</span> <span class="token keyword">ON</span> <span class="token keyword">UPDATE</span> <span class="token keyword">CURRENT_TIMESTAMP</span><span class="token punctuation">,</span>
+  <span class="token keyword">FOREIGN</span> <span class="token keyword">KEY</span><span class="token punctuation">(</span>owner_id<span class="token punctuation">)</span>
+  <span class="token keyword">REFERENCES</span> users<span class="token punctuation">(</span>id<span class="token punctuation">)</span>
+  <span class="token keyword">ON</span> <span class="token keyword">DELETE</span> <span class="token keyword">CASCADE</span>
+<span class="token punctuation">)</span> <span class="token keyword">CHARSET</span> <span class="token operator">=</span> utf8mb4<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>tags 表</li>
+</ul>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> tags<span class="token punctuation">(</span>
+  id <span class="token keyword">INT</span> <span class="token keyword">AUTO_INCREMENT</span> <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span><span class="token punctuation">,</span>
+  name <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span> <span class="token keyword">UNIQUE</span><span class="token punctuation">,</span>
+  slug <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">120</span><span class="token punctuation">)</span> <span class="token keyword">UNIQUE</span><span class="token punctuation">,</span>
+  created_at <span class="token keyword">TIMESTAMP</span> <span class="token keyword">DEFAULT</span> <span class="token keyword">CURRENT_TIMESTAMP</span>
+<span class="token punctuation">)</span> <span class="token keyword">CHARSET</span> <span class="token operator">=</span> utf8mb4<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>item_tags 表</li>
+</ul>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> item_tags<span class="token punctuation">(</span>
+  item_id <span class="token keyword">INT</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+  tag_id <span class="token keyword">INT</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+  created_at <span class="token keyword">TIMESTAMP</span> <span class="token keyword">DEFAULT</span> <span class="token keyword">CURRENT_TIMESTAMP</span><span class="token punctuation">,</span>
+  <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span><span class="token punctuation">(</span>item_id<span class="token punctuation">,</span>tag_id<span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token keyword">INDEX</span> idx_tag_id<span class="token punctuation">(</span>tag_id<span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token keyword">FOREIGN</span> <span class="token keyword">KEY</span><span class="token punctuation">(</span>item_id<span class="token punctuation">)</span>
+  <span class="token keyword">REFERENCES</span> items<span class="token punctuation">(</span>id<span class="token punctuation">)</span>
+  <span class="token keyword">ON</span> <span class="token keyword">DELETE</span> <span class="token keyword">CASCADE</span><span class="token punctuation">,</span>
+  <span class="token keyword">FOREIGN</span> <span class="token keyword">KEY</span><span class="token punctuation">(</span>tag_id<span class="token punctuation">)</span>
+  <span class="token keyword">REFERENCES</span> tags<span class="token punctuation">(</span>id<span class="token punctuation">)</span>
+  <span class="token keyword">ON</span> <span class="token keyword">DELETE</span> <span class="token keyword">CASCADE</span>
+<span class="token punctuation">)</span> <span class="token keyword">CHARSET</span> <span class="token operator">=</span> utf8mb4<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>attachments 表</li>
+</ul>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> attachments<span class="token punctuation">(</span>
+  id <span class="token keyword">INT</span> <span class="token keyword">AUTO_INCREMENT</span> <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span><span class="token punctuation">,</span>
+  owner_id <span class="token keyword">INT</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+  item_id <span class="token keyword">INT</span><span class="token punctuation">,</span>
+  storage_key <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">512</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+  url <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">1024</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  mime_type <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  size <span class="token keyword">BIGINT</span><span class="token punctuation">,</span>
+  created_at <span class="token keyword">TIMESTAMP</span> <span class="token keyword">DEFAULT</span> <span class="token keyword">CURRENT_TIMESTAMP</span><span class="token punctuation">,</span>
+  <span class="token keyword">INDEX</span> idx_owner_id<span class="token punctuation">(</span>owner_id<span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token keyword">INDEX</span> idx_item_id<span class="token punctuation">(</span>item_id<span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token keyword">FOREIGN</span> <span class="token keyword">KEY</span><span class="token punctuation">(</span>item_id<span class="token punctuation">)</span>
+  <span class="token keyword">REFERENCES</span> items<span class="token punctuation">(</span>id<span class="token punctuation">)</span>
+  <span class="token keyword">ON</span> <span class="token keyword">DELETE</span> <span class="token keyword">CASCADE</span><span class="token punctuation">,</span>
+  <span class="token keyword">FOREIGN</span> <span class="token keyword">KEY</span><span class="token punctuation">(</span>owner_id<span class="token punctuation">)</span>
+  <span class="token keyword">REFERENCES</span> users<span class="token punctuation">(</span>id<span class="token punctuation">)</span>
+  <span class="token keyword">ON</span> <span class="token keyword">DELETE</span> <span class="token keyword">CASCADE</span>
+<span class="token punctuation">)</span> <span class="token keyword">CHARSET</span> <span class="token operator">=</span> utf8mb4<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>sessions 表</li>
+</ul>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> sessions<span class="token punctuation">(</span>
+  id <span class="token keyword">INT</span> <span class="token keyword">AUTO_INCREMENT</span> <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span><span class="token punctuation">,</span>
+  user_id <span class="token keyword">INT</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+  token_hash <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">255</span><span class="token punctuation">)</span> <span class="token keyword">UNIQUE</span><span class="token punctuation">,</span>
+  expires_at <span class="token keyword">TIMESTAMP</span><span class="token punctuation">,</span>
+  revoked_at <span class="token keyword">TIMESTAMP</span><span class="token punctuation">,</span>
+  created_at <span class="token keyword">TIMESTAMP</span> <span class="token keyword">DEFAULT</span> <span class="token keyword">CURRENT_TIMESTAMP</span><span class="token punctuation">,</span>
+  <span class="token keyword">INDEX</span> idx_user_id<span class="token punctuation">(</span>user_id<span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token keyword">FOREIGN</span> <span class="token keyword">KEY</span><span class="token punctuation">(</span>user_id<span class="token punctuation">)</span>
+  <span class="token keyword">REFERENCES</span> users<span class="token punctuation">(</span>id<span class="token punctuation">)</span>
+  <span class="token keyword">ON</span> <span class="token keyword">DELETE</span> <span class="token keyword">CASCADE</span>
+<span class="token punctuation">)</span> <span class="token keyword">CHARSET</span> <span class="token operator">=</span> utf8mb4<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://felixwen-dev.github.io/myBlog">Felix</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://felixwen-dev.github.io/myBlog/2026/06/21/LocalMind-%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97-02/">https://felixwen-dev.github.io/myBlog/2026/06/21/LocalMind-%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97-02/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://felixwen-dev.github.io/myBlog" target="_blank">Felix's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/myBlog/tags/LocalMind/">LocalMind</a><a class="post-meta__tags" href="/myBlog/tags/Vue3/">Vue3</a><a class="post-meta__tags" href="/myBlog/tags/NestJS/">NestJS</a><a class="post-meta__tags" href="/myBlog/tags/MySQL/">MySQL</a><a class="post-meta__tags" href="/myBlog/tags/LangChain/">LangChain</a><a class="post-meta__tags" href="/myBlog/tags/RAG/">RAG</a><a class="post-meta__tags" href="/myBlog/tags/AI/">AI</a></div><div class="post-share"><div class="social-share" data-image="/myBlog/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/myBlog/2026/06/18/%E7%AE%97%E6%B3%95%E6%97%A5%E8%AE%B0-02/" title="算法日记 02"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">算法日记 02</div></div><div class="info-2"><div class="info-item-1">算法日记 02 2026-06-18  字母异位词分组 给你一个字符串数组，请你将 字母异位词 组合在一起。可以按任意顺序返回结果列表。   示例 1: 输入: strs &#x3D; [“eat”, “tea”, “tan”, “ate”, “nat”, “bat”] **输出: **[[“bat”],[“nat”,”tan”],[“ate”,”eat”,”tea”]] 解释：  在 strs 中没有字符串可以通过重新排列来形成 &quot;bat&quot;。 字符串 &quot;nat&quot; 和 &quot;tan&quot; 是字母异位词，因为它们可以重新排列以形成彼此。 字符串 &quot;ate&quot; ，&quot;eat&quot; 和 &quot;tea&quot; 是字母异位词，因为它们可以重新排列以形成彼此。  示例 2: 输入: strs &#x3D; [“”] **输出: **[[“”]] 示例 3: 输入: strs &#x3D; [“a”] **输出: **[[“a”]]   提示：  1 &lt;= strs.length &lt;= 1...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/myBlog/2026/06/10/LocalMind-%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97-01/" title="LocalMind 开发日志 01"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-10</div><div class="info-item-2">LocalMind 开发日志 01</div></div><div class="info-2"><div class="info-item-1">2026-6-10 项目架构设计 项目描述：  一个基于 RAG 架构的本地/云端 AI 知识库系统 技术栈：Vue3 + NestJS + Prisma + MySQL + LangChain + Qdrant  项目目标 LocalMind 是一个个人 AI 知识库系统，用户可以：  上传 PDF / 文档 构建知识库 进行 AI 问答 基于语义检索获取答案（RAG）  架构设计 系统采用 前后端分离 + AI增强架构：  表现层（Frontend） 技术栈：  Vue3 Axios Pinia  职责：  用户交互界面 文件上传入口 知识库管理UI 聊天问答界面  应用层（Backend API） 技术栈：  NestJS Prisma TypeORM JWT  职责：  用户认证（注册 / 登录） 知识库管理 文档上传处理 Chat对话接口 调用 AI 服务链路  后端表单设计：  User KnowledgeBase Document Chat  数据层（Database Layer） MySQL（结构化数据） 存储内容：  用户信息（User） 知识库（Knowled...</div></div></div></a><a class="pagination-related" href="/myBlog/2026/06/12/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93-01/" title="面试总结 01"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-12</div><div class="info-item-2">面试总结 01</div></div><div class="info-2"><div class="info-item-1">面试总结 01 2026-6-12 量子矩阵结果：挂  面试八股请你介绍一下 CSS 的两种盒模型面试问答：回答： CSS 的盒模型分为两种：标准盒模型、IE 盒模型 。标准盒模型从外到内包括 padding、border、margin、content。IE 盒模型也是这样的构造。 追问： 在你的 BI 大屏开发中，使用的是标准盒模型还是 IE 盒模型？ 回答： 标准盒模型 标准回答： 标准盒模型：标准盒模型的 width 和 height 只包括 content IE 盒模型：IE 盒模型的 width 和 height 属性包框 margin、border、padding   请你介绍一下 Vue3 中的响应式数据的原理面试回答：（Vue3 中我以为面试官问的响应式数据是 ref 和 reactive，但是因为我记不太清楚，我感觉可能是数据拦截，所以答的没有什么底气） Vue3 的响应式数据主要是通过数据拦截来实现的，数据拦截他有 13 种方法，可以准确的拦截对象所有的变化，而不像 Vue2 一样，不能完整拦截对象，需要层层便利，造成性能浪费。 标准回答： Vue3 的响应式...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/myBlog/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/myBlog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Felix</div><div class="author-info-description">记录学习与生活</div><div class="site-data"><a href="/myBlog/archives/"><div class="headline">文章</div><div class="length-num">6</div></a><a href="/myBlog/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/myBlog/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/FelixWEN-dev"><i class="fab fa-github"></i><span>关注我</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/FelixWEN-dev" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:liamliu0216@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">LocalMind 开发日志 02</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E7%AB%AF%E5%AD%A6%E4%B9%A0-%E5%BC%80%E5%8F%91"><span class="toc-number">1.1.</span> <span class="toc-text">后端学习&amp;开发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%88%9B%E5%BB%BA"><span class="toc-number">1.1.1.</span> <span class="toc-text">创建创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="toc-number">1.1.2.</span> <span class="toc-text">路由装饰器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Controller"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">@Controller</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP-%E6%96%B9%E6%B3%95%E7%9A%84%E5%A4%84%E7%90%86%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">HTTP 方法的处理装饰器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.1.3.</span> <span class="toc-text">数据库</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/myBlog/2026/06/21/LocalMind-%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97-02/" title="LocalMind 开发日志 02">LocalMind 开发日志 02</a><time datetime="2026-06-21T15:56:52.000Z" title="发表于 2026-06-21 23:56:52">2026-06-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/myBlog/2026/06/18/%E7%AE%97%E6%B3%95%E6%97%A5%E8%AE%B0-02/" title="算法日记 02">算法日记 02</a><time datetime="2026-06-18T15:42:38.000Z" title="发表于 2026-06-18 23:42:38">2026-06-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/myBlog/2026/06/15/%E7%AE%97%E6%B3%95%E6%97%A5%E8%AE%B0-01/" title="算法日记 01">算法日记 01</a><time datetime="2026-06-15T13:12:41.000Z" title="发表于 2026-06-15 21:12:41">2026-06-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/myBlog/2026/06/12/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93-01/" title="面试总结 01">面试总结 01</a><time datetime="2026-06-12T09:28:34.000Z" title="发表于 2026-06-12 17:28:34">2026-06-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/myBlog/2026/06/10/LocalMind-%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97-01/" title="LocalMind 开发日志 01">LocalMind 开发日志 01</a><time datetime="2026-06-10T13:56:52.000Z" title="发表于 2026-06-10 21:56:52">2026-06-10</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By Felix</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.2</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.5-b1</a></span></div><div class="footer_custom_text">感谢访问我的博客</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/myBlog/js/utils.js?v=5.5.5-b1"></script><script src="/myBlog/js/main.js?v=5.5.5-b1"></script><div class="js-pjax"><script>(async () => {
+  const showKatex = () => {
+    document.querySelectorAll('#article-container .katex').forEach(el => el.classList.add('katex-show'))
+  }
+
+  if (!window.katex_js_css) {
+    window.katex_js_css = true
+    await btf.getCSS('https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css')
+    if (false) {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/copy-tex.min.js')
+    }
+  }
+
+  showKatex()
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/myBlog/js/search/local-search.js?v=5.5.5-b1"></script></div></div></body></html>
